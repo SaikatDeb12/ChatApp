@@ -98,7 +98,6 @@ function App() {
           {joinRoom && (
             <div className="text-stone-300 border-none bg-stone-800 px-2 py-1 my-2 rounded-lg flex justify-between">
               <p>{`Room Code: ${roomEntered}`}</p>
-              <p>Users: 1/2</p>
             </div>
           )}
         </div>
@@ -139,6 +138,7 @@ function App() {
             placeholder={joinRoom ? "Type a message..." : "Enter Room Code"}
             value={input}
             onChange={handleOnChange}
+            autoFocus={true}
           />
           <button className="rounded-lg hover:opacity-90 delay-50 px-4 py-2 bg-stone-100 text-black">
             {joinRoom ? "Send" : "Join"}

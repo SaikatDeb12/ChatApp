@@ -14,6 +14,14 @@ join format:
     "roomId": "123abc"
   }
 }
+
+chat format:
+{
+  "type" : "chat",
+  "payload": {
+    "message" : "hi there"
+  }
+}
 */
 
 let allSocket: User[] = [];

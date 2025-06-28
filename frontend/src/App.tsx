@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import ShortUniqueId from "short-unique-id";
+
+interface messageType {
+  sender: string;
+  message: string;
+}
 
 function App() {
   const [toggleRoom, setToggleRoom] = useState<boolean>(false);
   const [joinRoom, setJoinRoom] = useState<boolean>(false);
   const [roomCodeGenerated, setRoomCodeGenerated] = useState<string>("");
-  const [input, setInput] = useState<string>("");
   const [roomEntered, setRoomEntered] = useState<string>("");
+  const [messages, storeMessages] = useState<messageType[]>([]);
+  const [input, setInput] = useState<string>("");
+
+  const wsRef = useRef<WebSocket>();
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8080");
+    ws.onmessage = (message) => {
+      storeMessages((value) => [
+        ...value,
+        { sender: "sender2", message: message.data },
+      ]);
+    };
+    wsRef.current = ws;
+  }, []);
 
   const createNewRoom = () => {
     setToggleRoom(true);
@@ -18,16 +37,40 @@ function App() {
 
   const onJoin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setInput("");
     setToggleRoom(false);
     setJoinRoom(true);
+
+    setRoomEntered(input);
+    wsRef.current.send(
+      JSON.stringify({
+        type: "join",
+        payload: {
+          roomId: input,
+        },
+      })
+    );
+    setInput("");
   };
 
-  const onSend = () => {};
+  const onSend = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    wsRef.current.send(
+      JSON.stringify({
+        type: "chat",
+        payload: {
+          message: input,
+        },
+      })
+    );
+    storeMessages((values) => [
+      ...values,
+      { sender: "sender1", message: input },
+    ]);
+    setInput("");
+  };
 
   const handleOnChange = (input: React.ChangeEvent<HTMLInputElement>) => {
     console.log(input.target.value);
-    setRoomEntered(input.target.value);
     setInput(input.target.value);
   };
 
@@ -52,7 +95,22 @@ function App() {
         </div>
         {joinRoom ? (
           <div className="text-stone-300 h-[50vh] w-full py-2 border-2 p-2 border-stone-800 rounded-lg">
-            <p>msg...</p>
+            <ol className="max-h-[48vh] w-full flex flex-col space-y-1 overflow-y-auto">
+              {messages.map((ele, ind) => (
+                <li
+                  key={ind}
+                  className={`w-full flex my-1
+                    ${
+                      ele.sender == "sender1" ? "justify-end " : "justify-start"
+                    }
+                    `}
+                >
+                  <div className="p-2 mx-2 border bg-stone-100 text-black rounded-lg w-fit">
+                    {ele.message}
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         ) : (
           <button

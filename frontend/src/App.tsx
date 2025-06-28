@@ -16,6 +16,11 @@ function App() {
   const [input, setInput] = useState<string>("");
 
   const wsRef = useRef<WebSocket>();
+  const msgEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080");
@@ -27,6 +32,10 @@ function App() {
     };
     wsRef.current = ws;
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const createNewRoom = () => {
     setToggleRoom(true);
@@ -110,6 +119,7 @@ function App() {
                   </div>
                 </li>
               ))}
+              <div ref={msgEndRef} />
             </ol>
           </div>
         ) : (

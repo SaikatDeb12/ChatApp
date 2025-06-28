@@ -40,7 +40,10 @@ wss.on("connection", (socket) => {
       const currentRoomId = tempSocket?.room;
 
       for (let i = 0; i < allSocket.length; i++) {
-        if (allSocket[i].room == currentRoomId) {
+        if (
+          allSocket[i].room == currentRoomId &&
+          allSocket[i].socket != socket
+        ) {
           allSocket[i].socket.send(parsedMsg.payload.message);
         }
       }

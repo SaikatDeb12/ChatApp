@@ -28,7 +28,14 @@ wss.on("connection", (socket) => {
       });
     }
     if (parsedMsg.type == "chat") {
-      const currentRoomId = allSocket.find((user) => user.socket == socket);
+      const tempSocket = allSocket.find((user) => user.socket == socket);
+      const currentRoomId = tempSocket?.room;
+
+      for (let i = 0; i < allSocket.length; i++) {
+        if (allSocket[i].room == currentRoomId) {
+          allSocket[i].socket.send(parsedMsg.payload.message);
+        }
+      }
     }
   });
 });

@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "@types/unique-string": "^1.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.11"
+    "short-unique-id": "^5.3.2",
+    "tailwindcss": "^4.1.11",
+    "unique-string": "^3.0.0",
+    "unique-string-generator": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

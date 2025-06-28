@@ -1,17 +1,34 @@
 import { useState } from "react";
 import "./App.css";
+import ShortUniqueId from "short-unique-id";
 
 function App() {
   const [toggleRoom, setToggleRoom] = useState<boolean>(false);
   const [joinRoom, setJoinRoom] = useState<boolean>(false);
+  const [roomCodeGenerated, setRoomCodeGenerated] = useState<string>("");
+  const [input, setInput] = useState<string>("");
+  const [roomEntered, setRoomEntered] = useState<string>("");
 
   const createNewRoom = () => {
     setToggleRoom(true);
+    const uid = new ShortUniqueId({ length: 5 });
+    const code = uid.rnd();
+    setRoomCodeGenerated(code.toUpperCase().substring(0, 5));
   };
 
-  const onJoin = () => {
+  const onJoin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setInput("");
     setToggleRoom(false);
     setJoinRoom(true);
+  };
+
+  const onSend = () => {};
+
+  const handleOnChange = (input: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(input.target.value);
+    setRoomEntered(input.target.value);
+    setInput(input.target.value);
   };
 
   return (
@@ -28,7 +45,7 @@ function App() {
           </div>
           {joinRoom && (
             <div className="text-stone-300 border-none bg-stone-800 px-2 py-1 my-2 rounded-lg flex justify-between">
-              <p>Room Code: 662WJS</p>
+              <p>{`Room Code: ${roomEntered}`}</p>
               <p>Users: 1/2</p>
             </div>
           )}
@@ -40,30 +57,32 @@ function App() {
         ) : (
           <button
             onClick={createNewRoom}
-            className="w-full bg-stone-100 border-none rounded-lg py-2 text-blac font-semibold"
+            className="w-full hover:opacity-90 delay-50 bg-stone-100 border-none rounded-lg py-2 text-blac font-semibold"
           >
             Create New Room
           </button>
         )}
-        <div className="flex items-center h-fit w-full space-x-2">
+        <form
+          onSubmit={joinRoom ? onSend : onJoin}
+          className="flex items-center h-fit w-full space-x-2"
+        >
           <input
             className="text-stone-300 w-full border-2 border-stone-800 rounded-lg p-2"
             placeholder={joinRoom ? "Type a message..." : "Enter Room Code"}
+            value={input}
+            onChange={handleOnChange}
           />
-          <button
-            onClick={onJoin}
-            className="rounded-lg px-4 py-2 bg-stone-100 text-black"
-          >
+          <button className="rounded-lg hover:opacity-90 delay-50 px-4 py-2 bg-stone-100 text-black">
             {joinRoom ? "Send" : "Join"}
           </button>
-        </div>
+        </form>
         {toggleRoom && (
           <div className="bg-stone-800 w-full py-2 text-center">
             <p className="text-sm text-stone-400">
               Share this code with your friends
             </p>
             <h2 className="text-2xl bg-stone-800 text-stone-300 font-bold">
-              SDLF89
+              {roomCodeGenerated}
             </h2>
           </div>
         )}

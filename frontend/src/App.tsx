@@ -3,9 +3,17 @@ import "./App.css";
 
 function App() {
   const [toggleRoom, setToggleRoom] = useState<boolean>(false);
+  const [joinRoom, setJoinRoom] = useState<boolean>(false);
+
   const createNewRoom = () => {
     setToggleRoom(true);
   };
+
+  const onJoin = () => {
+    setToggleRoom(false);
+    setJoinRoom(true);
+  };
+
   return (
     <div className="h-screen w-full flex justify-center items-center bg-black">
       <div className="w-[30vw] h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
@@ -14,18 +22,18 @@ function App() {
             <h2 className="text-stone-300 text-3xl font-normal">
               Real Time Chat
             </h2>
-            <p className="text-stone-300 text-sm font-mono">
+            <p className="text-stone-400 text-sm font-mono">
               Temporary room that expires after both user exits
             </p>
           </div>
-          {toggleRoom && (
+          {joinRoom && (
             <div className="text-stone-300 border-none bg-stone-800 px-2 py-1 my-2 rounded-lg flex justify-between">
               <p>Room Code: 662WJS</p>
               <p>Users: 1/2</p>
             </div>
           )}
         </div>
-        {toggleRoom ? (
+        {joinRoom ? (
           <div className="text-stone-300 h-[50vh] w-full py-2 border-2 p-2 border-stone-800 rounded-lg">
             <p>msg...</p>
           </div>
@@ -40,12 +48,25 @@ function App() {
         <div className="flex items-center h-fit w-full space-x-2">
           <input
             className="text-stone-300 w-full border-2 border-stone-800 rounded-lg p-2"
-            placeholder={toggleRoom ? "Type a message..." : "Enter Room Code"}
+            placeholder={joinRoom ? "Type a message..." : "Enter Room Code"}
           />
-          <button className="rounded-lg px-4 py-2 bg-stone-100 text-black">
-            {toggleRoom ? "Send" : "Join"}
+          <button
+            onClick={onJoin}
+            className="rounded-lg px-4 py-2 bg-stone-100 text-black"
+          >
+            {joinRoom ? "Send" : "Join"}
           </button>
         </div>
+        {toggleRoom && (
+          <div className="bg-stone-800 w-full py-2 text-center">
+            <p className="text-sm text-stone-400">
+              Share this code with your friends
+            </p>
+            <h2 className="text-2xl bg-stone-800 text-stone-300 font-bold">
+              SDLF89
+            </h2>
+          </div>
+        )}
       </div>
     </div>
   );

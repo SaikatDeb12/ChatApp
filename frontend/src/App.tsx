@@ -85,7 +85,7 @@ function App() {
 
   return (
     <div className="h-screen w-full flex justify-center items-center bg-black">
-      <div className="w-[50vw] max-w-100 h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
+      <div className="sm:w-[50vw] w-[90vw] max-w-120 h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
         <div className="w-full h-fit">
           <div>
             <div className="text-stone-300 text-2xl flex items-center space-x-2">

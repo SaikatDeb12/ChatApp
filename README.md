@@ -25,9 +25,9 @@
 | Layer       | Tech                         |
 |-------------|------------------------------|
 | **Frontend** | React, TypeScript, Tailwind CSS |
-| **Backend**  | Node.js, WebSockets (Socket.IO or ws) |
+| **Backend**  | Node.js, WebSockets (ws) |
 | **Tooling**  | ESLint, Prettier, Nodemon     |
-| **Deployment** | Vercel / Render / Railway     |
+| **Deployment** | Vercel (Frontend) , Render (Backend)      |
 
 ---
 
@@ -101,25 +101,6 @@ npm run dev
 - **Environment Variables**: Stored securely using `dotenv` to protect sensitive configurations.
 - **Input Sanitization**: Prevents malicious inputs through frontend and backend validation.
 - **TypeScript**: Reduces runtime errors with strict type checking.
-
----
-
-## 🌍 Deployment
-
-You can deploy the app using:
-
-### Render (Backend)
-- Connect the GitHub repo to Render.
-- Add environment variables in the Render Dashboard.
-- Configure WebSocket support for real-time communication.
-
-### Vercel / Netlify (Frontend)
-- Connect the `client` directory to Vercel or Netlify.
-- Set `VITE_BACKEND_URL` and `VITE_WEBSOCKET_URL` in the platform’s environment settings.
-
-### Railway / Fly.io (Full-stack)
-- Deploy both client and server with a unified CI/CD pipeline.
-- Ensure WebSocket support is enabled on the hosting platform.
 
 ---
 

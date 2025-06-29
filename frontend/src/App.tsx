@@ -15,7 +15,7 @@ function App() {
   const [messages, storeMessages] = useState<messageType[]>([]);
   const [input, setInput] = useState<string>("");
 
-  const wsRef = useRef<WebSocket>();
+  const wsRef = useRef<WebSocket | null>(null);
   const msgEndRef = useRef<null | HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -23,7 +23,7 @@ function App() {
   };
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket(import.meta.env.VITE_BASE_URL);
     ws.onmessage = (message) => {
       storeMessages((value) => [
         ...value,
@@ -50,7 +50,7 @@ function App() {
     setJoinRoom(true);
 
     setRoomEntered(input);
-    wsRef.current.send(
+    wsRef.current?.send(
       JSON.stringify({
         type: "join",
         payload: {
@@ -63,7 +63,7 @@ function App() {
 
   const onSend = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    wsRef.current.send(
+    wsRef.current?.send(
       JSON.stringify({
         type: "chat",
         payload: {
@@ -79,13 +79,12 @@ function App() {
   };
 
   const handleOnChange = (input: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(input.target.value);
     setInput(input.target.value);
   };
 
   return (
     <div className="h-screen w-full flex justify-center items-center bg-black">
-      <div className="w-[30vw] h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
+      <div className="w-[50vw] max-w-100 h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
         <div className="w-full h-fit">
           <div>
             <h2 className="text-stone-300 text-3xl font-normal">

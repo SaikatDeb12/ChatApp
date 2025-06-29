@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import ShortUniqueId from "short-unique-id";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 interface messageType {
   sender: string;
@@ -87,11 +88,14 @@ function App() {
       <div className="w-[50vw] max-w-100 h-fit border-2 font-mono border-stone-800 rounded-lg px-6 py-4 space-y-4">
         <div className="w-full h-fit">
           <div>
-            <h2 className="text-stone-300 text-3xl font-normal">
-              Real Time Chat
-            </h2>
+            <div className="text-stone-300 text-2xl flex items-center space-x-2">
+              <IoChatbubbleEllipsesOutline />
+              <h2 className="text-stone-300 text-3xl font-normal">
+                Chat Sphere
+              </h2>
+            </div>
             <p className="text-stone-400 text-sm font-mono">
-              Temporary room that expires after both user exits
+              Temporary room for private chatting
             </p>
           </div>
           {joinRoom && (
